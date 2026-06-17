@@ -1,0 +1,196 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: clamp(14px, 2vw, 20px) clamp(16px, 2.4vw, 26px);
+  border-bottom: 1px solid #1a1a1a;
+  background: #000000;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: #111111;
+  border: 1px solid #1a1a1a;
+  flex-shrink: 0;
+}
+
+.titles {
+  min-width: 0;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(18px, 2.2vw, 22px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.tagline {
+  font-size: 12px;
+  font-weight: 500;
+  color: #444444;
+  letter-spacing: 0.01em;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Status pill */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #555555;
+  padding: 6px 12px 6px 10px;
+  background: #000000;
+  border: 1px solid #1a1a1a;
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #333333;
+}
+.pill--ready .dot    { background: #ffffff; }
+.pill--listening     { color: #cccccc; }
+.pill--listening .dot  { background: #cccccc; animation: pulse 1.2s infinite; }
+.pill--thinking      { color: #aaaaaa; }
+.pill--thinking .dot   { background: #aaaaaa; animation: pulse 0.9s infinite; }
+.pill--speaking      { color: #888888; }
+.pill--speaking .dot   { background: #888888; animation: pulse 0.7s infinite; }
+.pill--complete      { color: #ffffff; }
+.pill--complete .dot   { background: #ffffff; }
+.pill--error         { color: #e5484d; }
+.pill--error .dot    { background: #e5484d; }
+
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+  70%  { box-shadow: 0 0 0 5px rgba(255, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+/* Hands-free toggle */
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #555555;
+  padding: 6px 12px 6px 9px;
+  background: #000000;
+  border: 1px solid #1a1a1a;
+  transition: color 0.15s, border-color 0.15s;
+}
+.toggleOn {
+  color: #ffffff;
+  border-color: #333333;
+}
+.toggleTrack {
+  width: 30px;
+  height: 17px;
+  border-radius: 100px;
+  background: #1a1a1a;
+  position: relative;
+  transition: background 0.2s;
+}
+.toggleOn .toggleTrack {
+  background: #ffffff;
+}
+.toggleThumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #555555;
+  transition: transform 0.2s, background 0.2s;
+}
+.toggleOn .toggleThumb {
+  transform: translateX(13px);
+  background: #000000;
+}
+
+.iconBtn {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  color: #444444;
+  background: #000000;
+  border: 1px solid #1a1a1a;
+  transition: color 0.15s, border-color 0.15s, transform 0.2s;
+}
+.iconBtn:hover {
+  color: #ffffff;
+  border-color: #333333;
+  transform: rotate(-35deg);
+}
+
+/* User chip */
+.user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 4px 4px 8px;
+  background: #000000;
+  border: 1px solid #1a1a1a;
+}
+.avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 800;
+  color: #000000;
+  background: #ffffff;
+  letter-spacing: 0.02em;
+}
+.userName {
+  font-size: 12px;
+  font-weight: 700;
+  color: #888888;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.logout {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #333333;
+  transition: color 0.15s;
+}
+.logout:hover { color: #ffffff; }
+
+@media (max-width: 760px) { .userName { display: none; } }
+@media (max-width: 600px) {
+  .tagline { display: none; }
+  .toggle { padding: 6px 9px; }
+  .toggleLabel { display: none; }
+}

@@ -1,0 +1,389 @@
+.screen {
+  position: relative;
+  min-height: 100dvh;
+}
+
+.app {
+  height: 100dvh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.65fr);
+  gap: 0;
+  padding: 0;
+  max-width: 100%;
+  margin: 0;
+  border-left: 1px solid #1a1a1a;
+  border-right: 1px solid #1a1a1a;
+}
+
+/* ================================================================
+   LEFT PANEL — journey display
+   ================================================================ */
+.journeyPanel {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  background: #000000;
+  border-right: 1px solid #1a1a1a;
+  overflow: hidden;
+}
+
+/* ── Hero ── */
+.hero {
+  flex: 0 0 auto;
+  background: #000000;
+  border-bottom: 1px solid #1a1a1a;
+  padding: clamp(32px, 5vw, 64px) clamp(32px, 5vw, 72px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroBlank {
+  width: 100%;
+  min-height: 150px;
+}
+
+.routeViz {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  max-width: 680px;
+}
+
+.heroStation {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.heroStationR {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.heroCode {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(48px, 7vw, 80px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+.heroCity {
+  font-size: 12px;
+  font-weight: 500;
+  color: #444444;
+  max-width: 14ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.heroTrack {
+  display: flex;
+  align-items: center;
+}
+.heroDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ffffff;
+  flex-shrink: 0;
+}
+.heroLine {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  background: repeating-linear-gradient(
+    to right,
+    #333333 0 6px,
+    transparent 6px 12px
+  );
+}
+.heroArrow {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  animation: ride 3.4s linear infinite;
+}
+@keyframes ride {
+  0%   { left: -6%;  opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { left: 102%; opacity: 0; }
+}
+
+/* ── Title row ── */
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px clamp(20px, 3vw, 32px);
+  border-bottom: 1px solid #1a1a1a;
+  flex-shrink: 0;
+}
+.journeyTitle {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(16px, 1.8vw, 20px);
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+.journeyRef {
+  font-size: 11px;
+  font-weight: 500;
+  color: #333333;
+  margin-top: 3px;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+}
+.statusBadge {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #888888;
+  border: 1px solid #222222;
+  padding: 4px 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.statusDone {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+/* ── Tags row ── */
+.tagsRow {
+  display: flex;
+  gap: 8px;
+  padding: 12px clamp(20px, 3vw, 32px);
+  border-bottom: 1px solid #1a1a1a;
+  flex-shrink: 0;
+}
+.tag {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #555555;
+  border: 1px solid #1a1a1a;
+  padding: 4px 10px;
+}
+
+/* ── Trait grid (3 × 2) ── */
+.traitGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+  background: #1a1a1a;
+}
+.field {
+  background: #000000;
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-right: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+}
+.field:nth-child(3n) { border-right: none; }
+.fieldFilled {
+  background: #000000;
+}
+.fieldLabel {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #ffffff;
+}
+.fieldValue {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.placeholder {
+  color: #333333;
+  font-weight: 500;
+}
+
+/* ── Footer ── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px clamp(20px, 3vw, 32px);
+  border-top: 1px solid #1a1a1a;
+  flex-shrink: 0;
+}
+.footerLeft,
+.footerRight {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.footerRight { min-width: 130px; }
+.footerLabel {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #333333;
+}
+.footerVal {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  color: #555555;
+}
+.progressBar {
+  height: 2px;
+  background: #1a1a1a;
+  overflow: hidden;
+}
+.progressFill {
+  height: 100%;
+  background: #ffffff;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ================================================================
+   RIGHT PANEL — action + chat
+   ================================================================ */
+.chatPanel {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  background: #000000;
+  overflow: hidden;
+}
+
+/* ── Booking info block ── */
+.bookingBlock {
+  padding: clamp(20px, 2.4vw, 28px) clamp(20px, 2.4vw, 28px);
+  border-bottom: 1px solid #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex-shrink: 0;
+}
+.blockTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.blockLabel {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #333333;
+}
+.blockDate {
+  font-size: 11px;
+  font-weight: 600;
+  color: #444444;
+  font-family: var(--font-display);
+}
+.depTime {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(32px, 4vw, 48px);
+  color: #ffffff;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.primaryBtn {
+  width: 100%;
+  padding: 13px 16px;
+  background: #ffffff;
+  color: #000000;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.primaryBtn:hover:not(:disabled) { opacity: 0.85; }
+.primaryBtn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.secondaryBtn {
+  width: 100%;
+  padding: 11px 16px;
+  background: transparent;
+  color: #555555;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 1px solid #1a1a1a;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.secondaryBtn:hover {
+  color: #ffffff;
+  border-color: #333333;
+}
+
+/* ── Live feed label ── */
+.feedLabel {
+  padding: 10px clamp(20px, 2.4vw, 28px);
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #333333;
+  border-bottom: 1px solid #1a1a1a;
+  flex-shrink: 0;
+}
+
+/* ── Dock (voice + input) ── */
+.dock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px clamp(16px, 2vw, 22px);
+  border-top: 1px solid #1a1a1a;
+  background: #000000;
+  flex-shrink: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 960px) {
+  .app {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
+    border: none;
+  }
+  .journeyPanel,
+  .chatPanel {
+    height: auto;
+    border-right: none;
+  }
+  .hero { padding: 32px 24px; }
+  .heroCode { font-size: clamp(40px, 12vw, 60px); }
+  .chatPanel { min-height: 80dvh; }
+}

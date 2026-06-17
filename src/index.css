@@ -1,0 +1,193 @@
+/* ============================================================
+   RailGhadi · Design System
+   Light, airy, premium glassmorphism
+   ============================================================ */
+
+:root {
+  /* Brand palette */
+  --brand-1: #6d5efc;   /* indigo  */
+  --brand-2: #4c8dff;   /* azure   */
+  --brand-3: #16c8c8;   /* teal    */
+  --brand-4: #ff7eb6;   /* blossom */
+  --brand-grad: linear-gradient(120deg, var(--brand-1), var(--brand-2) 55%, var(--brand-3));
+  --brand-grad-soft: linear-gradient(120deg, #8c80ff, #5b9bff 55%, #36dada);
+
+  /* Neutrals (light theme) */
+  --ink-900: #0f1535;
+  --ink-700: #2a3158;
+  --ink-500: #5b6189;
+  --ink-400: #7d83a8;
+  --ink-300: #a7accb;
+
+  /* Glass surfaces */
+  --glass: rgba(255, 255, 255, 0.62);
+  --glass-strong: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.85);
+  --glass-line: rgba(120, 130, 200, 0.16);
+
+  /* Effects */
+  --shadow-sm: 0 2px 8px rgba(40, 50, 110, 0.06);
+  --shadow-md: 0 18px 40px -18px rgba(40, 50, 110, 0.28);
+  --shadow-lg: 0 40px 80px -30px rgba(40, 50, 110, 0.42);
+  --shadow-glow: 0 0 0 1px rgba(255, 255, 255, 0.6), 0 20px 50px -20px rgba(109, 94, 252, 0.5);
+
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+  --radius-xl: 34px;
+
+  /* Landing / editorial palette */
+  --accent-yellow: #eef23a;
+  --accent-yellow-deep: #e2e632;
+  --lavender: #e6e8fc;
+  --lavender-2: #eef0ff;
+  --ink-black: #141414;
+  --ink-black-2: #1d1d22;
+  --page: #ffffff;
+  --hairline: #e9e9ee;
+
+  --font-hero: 'Bricolage Grotesque', 'Sora', system-ui, sans-serif;
+  --font-display: 'Sora', system-ui, sans-serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  color: #ffffff;
+  background: #000000;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+input {
+  font-family: inherit;
+}
+
+::selection {
+  background: rgba(109, 94, 252, 0.22);
+}
+
+/* Custom scrollbars */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(120, 130, 200, 0.28);
+  border-radius: 100px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 130, 200, 0.45);
+  background-clip: content-box;
+}
+
+/* ============================================================
+   Animated aurora background
+   ============================================================ */
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: #000000;
+}
+
+.aurora__blob {
+  display: none;
+}
+
+.aurora__blob--1 {
+  width: 46vw;
+  height: 46vw;
+  left: -8vw;
+  top: -6vw;
+  background: radial-gradient(circle at 30% 30%, #b9a8ff, transparent 65%);
+  animation: drift1 22s var(--ease-in-out) infinite;
+}
+.aurora__blob--2 {
+  width: 40vw;
+  height: 40vw;
+  right: -6vw;
+  top: 4vw;
+  background: radial-gradient(circle at 60% 40%, #9ec6ff, transparent 65%);
+  animation: drift2 26s var(--ease-in-out) infinite;
+}
+.aurora__blob--3 {
+  width: 44vw;
+  height: 44vw;
+  left: 18vw;
+  bottom: -18vw;
+  background: radial-gradient(circle at 50% 50%, #9af3e6, transparent 64%);
+  animation: drift3 30s var(--ease-in-out) infinite;
+}
+.aurora__blob--4 {
+  width: 30vw;
+  height: 30vw;
+  right: 12vw;
+  bottom: -10vw;
+  background: radial-gradient(circle at 50% 50%, #ffc6e0, transparent 64%);
+  animation: drift1 24s var(--ease-in-out) infinite reverse;
+}
+
+/* Fine grain / noise overlay for a tactile premium feel */
+.aurora__grain {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes drift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(6vw, 5vh) scale(1.12); }
+}
+@keyframes drift2 {
+  0%, 100% { transform: translate(0, 0) scale(1.05); }
+  50% { transform: translate(-5vw, 6vh) scale(0.92); }
+}
+@keyframes drift3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(4vw, -5vh) scale(1.1); }
+}
+
+/* Shared utility: gradient text */
+.grad-text {
+  background: var(--brand-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora__blob { animation: none !important; }
+}

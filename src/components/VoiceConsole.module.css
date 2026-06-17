@@ -1,0 +1,105 @@
+.console {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ---- Mic button ---- */
+.mic {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  transition: transform 0.15s;
+}
+.mic:active  { transform: scale(0.93); }
+.mic:hover   { transform: translateY(-1px); }
+
+.micInner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #000000;
+  background: #ffffff;
+  border: 1px solid #333333;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.ring,
+.ring2 {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  z-index: 1;
+  opacity: 0;
+}
+
+.micPulseHint .ring {
+  opacity: 1;
+  animation: ripple 2.2s ease-out infinite;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* listening */
+.mic--listening .micInner {
+  background: #ffffff;
+  color: #000000;
+}
+.mic--listening .ring,
+.mic--listening .ring2 {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+  animation: ripple 1.6s ease-out infinite;
+}
+.mic--listening .ring2 { animation-delay: 0.8s; }
+
+/* speaking */
+.mic--speaking .micInner {
+  background: #dddddd;
+  color: #000000;
+}
+.mic--speaking .ring {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.08);
+  animation: ripple 1.9s ease-out infinite;
+}
+
+/* complete */
+.mic--complete .micInner {
+  background: #ffffff;
+  color: #000000;
+}
+
+@keyframes ripple {
+  0%   { transform: scale(1);    opacity: 0.45; }
+  100% { transform: scale(1.8);  opacity: 0; }
+}
+
+/* ---- Waveform + hint ---- */
+.meter {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+.wave {
+  height: 36px;
+  width: 100%;
+}
+.hint {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #333333;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
