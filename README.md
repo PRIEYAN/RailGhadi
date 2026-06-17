@@ -1,64 +1,232 @@
-# RailGhadi — Frontend
+# RailGhadi
 
-A premium, voice-powered train-booking assistant built with **React + Vite**.
-Light, airy glassmorphism UI with a live audio waveform, a conversational
-transcript, and a boarding-pass ticket that fills in as you talk.
+## 🚂 Voice-First Telephony & Offline Train Booking Platform
 
-## Features
+Book train tickets with a phone call. No smartphone. No internet. No app. Just your voice.
 
-- 🎙️ **Voice booking** — speaks and listens via the Web Speech API
-  (speech recognition + synthesis), with a real-time mic waveform.
-- 💬 **Live transcript** — animated chat bubbles, typing indicator, and an
-  interim "you're saying…" preview.
-- 🎫 **Live ticket** — a glass boarding-pass that updates field-by-field and
-  issues a confirmation + e-ticket once the booking is complete.
-- ⌨️ **Type or talk** — a text composer is always available as a fallback.
-- 🤝 **Hands-free mode** — keeps the mic open between turns for a natural,
-  back-and-forth conversation.
+---
 
-## How it connects to the backend
+## 📖 Table of Contents
 
-The Express server (`../server.js`, port **5050**) exposes:
+- Vision & Problem Statement
+- User Journey
+- System Architecture
+- Audio Pipeline
+- State Machine
+- Payment Flow
+- End-to-End Data Flow
+- Tech Stack
+- Security
+- Project Structure
+- Scaling
 
-| Route             | Purpose                                            |
-| ----------------- | -------------------------------------------------- |
-| `GET /system-prompt` | Primes the assistant with the current date + role |
-| `POST /process`   | Forwards the conversation to Gemini and returns the reply |
+---
 
-The assistant ends each reply with a fenced `json` block describing the
-booking so far; the frontend parses it into the live ticket
-(see [`src/lib/parse.js`](src/lib/parse.js)).
+## 🎯 Vision & Problem Statement
 
-## Develop
+RailGhadi enables feature-phone users to book train tickets using a simple phone call.
 
-```bash
-# 1. start the backend (from the project root) — needs GEMINI_API_KEY in .env
-npm install
-npm start
+---
 
-# 2. start the frontend (from this folder)
-cd frontend
-npm install
-npm run dev        # http://localhost:5173
+## 💡 User Journey
+
+```mermaid
+journey
+    title RailGhadi Booking Journey
+    section Call
+      Dial Toll Free Number: 5: User
+      Speak Journey Details: 5: User
+    section Booking
+      Select Train: 5: User
+      Confirm Booking: 5: User
+    section Payment
+      Enter UPI PIN: 4: User
+      Payment Success: 5: User
+    section Delivery
+      Receive SMS Ticket: 5: User
 ```
 
-In dev, Vite proxies `/process` and `/system-prompt` to `http://localhost:5050`
-(see [`vite.config.js`](vite.config.js)), so there is no CORS to configure.
+---
 
-## Production build
+## 🏗️ System Architecture
 
-```bash
-cd frontend
-npm run build      # outputs to frontend/dist
+```mermaid
+graph LR
+
+A[Feature Phone] --> B[Telephony Gateway]
+B --> C[Express WS Gateway]
+
+C --> D[Gemini Live API]
+D --> C
+
+C --> E[Redis Session Store]
+C --> F[IRCTC Service]
+C --> G[UPI 123PAY]
+
+G --> C
+C --> H[SMS Service]
+H --> A
 ```
 
-`../server.js` automatically serves `frontend/dist` when it exists, so after a
-build you can run `npm start` from the project root and open
-`http://localhost:5050`.
+---
 
-## Notes
+## 🔊 Audio Pipeline
 
-- Voice features need a Chromium-based browser (Chrome/Edge) for
-  `webkitSpeechRecognition`. Where unavailable, the UI falls back to typing.
-- The waveform requests its own microphone stream purely for visuals and
-  degrades gracefully to an idle animation if permission is denied.
+```mermaid
+graph LR
+
+A[Caller Voice]
+--> B[Telephony Gateway]
+--> C[Mu-law Decoder]
+--> D[Audio Resampler]
+--> E[Gemini Live API]
+
+E
+--> F[Audio Response]
+--> G[Audio Encoder]
+--> H[Telephony Gateway]
+--> I[Feature Phone Speaker]
+```
+
+---
+
+## 🔄 Conversational State Machine
+
+```mermaid
+stateDiagram-v2
+
+[*] --> CollectingDetails
+
+CollectingDetails --> FetchingTrains
+FetchingTrains --> TrainSelection
+TrainSelection --> Confirmation
+
+Confirmation --> CollectingDetails : Edit
+Confirmation --> Payment : Confirm
+
+Payment --> SMSDispatch : Success
+Payment --> Payment : Retry
+
+SMSDispatch --> Completed
+Completed --> [*]
+```
+
+---
+
+## 💳 DTMF Payment Flow
+
+```mermaid
+sequenceDiagram
+
+participant User
+participant Gateway
+participant Express
+participant UPI
+
+User->>Gateway: Enter PIN
+Gateway->>Express: DTMF Digits
+Express->>UPI: Payment Request
+UPI-->>Express: Success
+Express-->>Gateway: Confirm
+Gateway-->>User: Payment Successful
+```
+
+---
+
+## 📊 Complete Data Flow
+
+```mermaid
+graph TD
+
+Call[Phone Call]
+--> Gateway[Telephony Gateway]
+
+Gateway
+--> Stream[Media Stream]
+
+Stream
+--> Express[Express Server]
+
+Express
+--> Gemini[Gemini Live]
+
+Gemini
+--> Express
+
+Express
+--> IRCTC[IRCTC APIs]
+
+Express
+--> UPI[UPI 123PAY]
+
+UPI
+--> Express
+
+Express
+--> SMS[SMS Service]
+
+SMS
+--> Passenger[Passenger]
+```
+
+---
+
+## 🛠️ Tech Stack
+
+- Node.js + Express
+- Gemini Live API
+- Twilio / Plivo
+- Redis
+- PostgreSQL
+- UPI 123PAY
+- Docker
+- Kubernetes
+
+---
+
+## 🔐 Security
+
+- TLS secured WebSockets
+- Isolated DTMF handling
+- Redis session isolation
+- No voice recording storage
+- PCI compliant payment flow
+
+---
+
+## 📁 Project Structure
+
+```text
+railghadi/
+├── src/
+├── routes/
+├── lib/
+├── config/
+├── db/
+├── docker/
+├── k8s/
+├── tests/
+└── README.md
+```
+
+---
+
+## 📈 Scaling Architecture
+
+```mermaid
+graph TB
+
+LB[Load Balancer]
+
+LB --> N1[Node Instance 1]
+LB --> N2[Node Instance 2]
+LB --> N3[Node Instance 3]
+
+N1 --> Redis[(Redis Cluster)]
+N2 --> Redis
+N3 --> Redis
+
+N1 --> Gemini[Gemini Live]
+N2 --> Gemini
+N3 --> Gemini
+```
